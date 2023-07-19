@@ -11,10 +11,10 @@ const Datatable = () => {
   const handleDelete = async (id) => {
     try {
       await deleteProductById("product",id)
+      setData(data.filter((item) => item.id !== id));
     }catch(err) {
       console.log(err);
     }
-    setData(data.filter((item) => item.id !== id));
   };
 
   const getData = async () =>{
@@ -27,7 +27,7 @@ const Datatable = () => {
   }
   useEffect(() => {
     getData();
-  },[data])
+  },[])
 
 
   const actionColumn = [
