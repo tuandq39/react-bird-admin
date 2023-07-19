@@ -47,7 +47,7 @@ export const userInputs = [
       id: "title",
       label: "Title",
       type: "text",
-      placeholder: "Apple Macbook Pro",
+      placeholder: "Bird name",
     },
     {
       id: "description",
@@ -59,7 +59,7 @@ export const userInputs = [
       id: "category",
       label: "Category",
       type: "text",
-      placeholder: "Computers",
+      placeholder: "kind of bird",
     },
     {
       id: "price",

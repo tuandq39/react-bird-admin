@@ -2,14 +2,33 @@ import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { userColumns, userRows } from "../../datatablesource";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { deleteProductById, getAllProducts } from "../../service/firebase";
 
 const Datatable = () => {
-  const [data, setData] = useState(userRows);
+  const [data, setData] = useState([]);
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
+    try {
+      await deleteProductById("product",id)
+    }catch(err) {
+      console.log(err);
+    }
     setData(data.filter((item) => item.id !== id));
   };
+
+  const getData = async () =>{
+    try {
+      const productsData = await getAllProducts("product");
+      setData(productsData);
+    }catch(err) {
+      console.log(err);
+    }
+  }
+  useEffect(() => {
+    getData();
+  },[data])
+
 
   const actionColumn = [
     {
@@ -19,7 +38,7 @@ const Datatable = () => {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link to="/users/test" style={{ textDecoration: "none" }}>
+            <Link to="/product/test" style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
             </Link>
             <div
@@ -36,8 +55,8 @@ const Datatable = () => {
   return (
     <div className="datatable">
       <div className="datatableTitle">
-        Add New User
-        <Link to="/users/new" className="link">
+        Add New Product
+        <Link to="/products/new" className="link">
           Add New
         </Link>
       </div>

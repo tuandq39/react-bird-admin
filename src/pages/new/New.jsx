@@ -5,10 +5,12 @@ import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUpload
 import { useEffect, useState } from "react";
 import { addProduct, storage } from "../../service/firebase";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { useNavigate } from "react-router-dom";
 
 const New = ({ inputs, title }) => {
   const [file, setFile] = useState("");
   const [data, setData] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     const uploadFile = () => {
@@ -56,11 +58,31 @@ const New = ({ inputs, title }) => {
     setData({ ...data, [id]: value });
   };
 
+  const showSuccessAlert = () => {
+    alert("Product successfully added!");
+    };
+
+  const showErrorAlert = () => {
+    alert("An error occurred. Please try again later.");
+    };
+
   const handleAddProduct = async (e) => {
     e.preventDefault();
+    try {
+      await addProduct("product",data);
+      console.log(data);
 
-     await addProduct("product",data);
-    console.log(data);
+      showSuccessAlert();
+      setData({});
+      setFile("");
+      navigate("/products");
+
+    } catch(err) {
+      console.log(err);
+      showErrorAlert()
+
+    }
+
   };
 
   return (
